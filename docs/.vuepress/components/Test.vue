@@ -1,5 +1,5 @@
 <template>
-  <div class="test">dnfdnf</div>
+  <div class="test">发</div>
 </template>
 <script>
 export default {
