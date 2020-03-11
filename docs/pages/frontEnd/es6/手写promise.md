@@ -4,7 +4,7 @@
 * 2、执行异步代码，成功后可以执行then里的成功回调函数、失败可以执行then里的失败回调函数
 ### 分析：
 根据原生Promise的使用方法
-```
+```js
 const promise = new Promise((resolve, reject) => {
   resolve('success)
   // 或reject('fail')
@@ -20,7 +20,7 @@ promise.then((res) => {
 * 2、promise实例的then方法，接受2个回调函数（这里定为onFulfilled, onRejected）作为参数，执行then的时候，回调函数并不执行，而是分别在resolve和reject的场景下触发
 ### 实现
 那我们就可以先写出一个简易版本了
-```
+```js
 function Promise (fn) {
   const self = this
   self.onFulfilled = null
@@ -46,7 +46,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 ```
 ### 测试
 用setTimeout模拟异步操作
-```
+```js
 const promise = new Promise((resolve, reject) => {
   setTimeout(() => { // 模拟异步操作
     resolve('success')
@@ -63,7 +63,7 @@ promise.then((res) => {
 ### 扩展一下
 then方法是可以多次重复调用的，且当resolve/reject时，多个then都会执行；而我们上面的onFulfilled/onRejected都只有一个，只能执行最新的，因此我们改进一下，以满足then方法的多次调用。
 只需要将回调函数改为数组就可以了。
-```
+```js
 function Promise (fn) {
   const self = this
   self.onFulfilledCallbacks = []
@@ -87,7 +87,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 }
 ```
 测试下：
-```
+```js
 const promise = new Promise((resolve, reject) => {
 		setTimeout(() => { // 模拟异步操作
 			// resolve('success')
@@ -116,7 +116,7 @@ then方法负责注册成功回调函数onFulfilled和失败回调函数onReject
 * 2、通过异步请求的结果决定当前状态，状态只能由pending变为fulfilled或rejected，状态一旦改变，则不能改变也不可逆
 * 3、如果状态已经改变，之后再调用的then方法里的回调函数则会直接执行
 ### 实现
-```
+```js
 function Promise (fn) {
   const self = this
   self.onFulfilledCallbacks = []
@@ -158,7 +158,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 目标2的实现：只有resolve函数和reject函数可以改变status的值，且只有当status为pending时才可改变（且只能变为fulfilled或rejected），这样同时可满足状态一旦改变，便无法再被改变
 目标3的实现：then方法里只有状态为pending时是注册保存回调函数，resolved/rejected下则直接执行回调函数。
 ### 测试
-```
+```js
 const promise = new Promise((resolve, reject) => {
   setTimeout(() => { // 模拟异步操作
     resolve('success')
@@ -188,7 +188,7 @@ setTimeout(() => { // 等1s的resolve执行后再调用then方法
 ## then异步执行
 使用过Promise的话就都知道，根据js的执行机制，then方法里的回调函数并不是同步执行的，而是一个微任务，等到当前循环的同步任务执行完了才会被执行。
 测试下
-```
+```js
 const promise = new Promise((resolve, reject) => {
   setTimeout(() => { // 模拟异步操作
     resolve('success')
@@ -202,7 +202,7 @@ promise.then((res) => {
 console.log('script end')
 ```
 用我们以上的实现来验证，好像是对的，先输出'script end'然后输出'success'，但仔细想想，这里'success'后输出，只是因为异步任务1s后才完成，因此resolve1s后才执行，也就是then里的回调函数1s后才执行。这与then方法是不是以微任务的形式实现的完全没什么关系，我们来验证下
-```
+```js
 const promise = new Promise((resolve, reject) => {
   resolve('success')
 })
@@ -217,7 +217,7 @@ console.log('script end')
 因此我们要保证不管是异步任务还是同步任务，then里的回调都是异步执行的。
 ### 实现
 原生Promise的then里的回调是微任务，这里暂时用宏任务setTimeout来实现模拟下，后面会讲到如何修改。
-```
+```js
 Promise.prototype.then = function(onFulfilled, onRejected) {
   if (this.status === 'pending') { // pending时注册回调函数
     this.onFulfilledCallbacks.push(() => {
@@ -249,7 +249,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 ## 链式调用
 提到链式，可能第一反应就是想到通过再then方法里返回this来实现，Jquery就是这么实现的，但是Promise的链式调用有些不一样。
 如果then方法里返回this，则前一个then方法的回调函数执行后，状态已经改变；由于返回的this，即同一个promise实例，则下一个then就会直接执行
-```
+```js
 Promise.prototype.then = function(onFulfilled, onRejected) {
   if (this.status === 'pending') { // pending时注册回调函数
     this.onFulfilledCallbacks.push(() => {
@@ -274,7 +274,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
   return this
 }
 ```
-```
+```js
 const promise = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('success-1')
@@ -295,7 +295,7 @@ success-1
 执行第二个then里的回调函数时，状态已经改变，会直接执行；输出结果没有出现第一个then里返回的success-2，因为此时返回的还是实例promise，此时的self.value是'success-1'，'success-2'会被忽略掉。
 想要第二个then能获取到第一个then的返回值，需要第一个then返回一个新的thenable对象，这里我们返回一个新的Promise实例。
 ### 实现
-```
+```js
 Promise.prototype.then = function(onFulfilled, onRejected) {
   return new Promise ((resolve, reject) => {
     if (this.status === 'pending') { // pending时注册回调函数
@@ -334,7 +334,7 @@ success-2
 ```
 此时第一个then的返回值已经被第二个then接受到。
 要特别说明一点，以上的实现中newPromise的状态不能因为上一个promise被reject了，也reject；也就是说上一个promise无论被 reject 还是被 resolve ， newPromise 都会被 resolve，只有newPromise出现异常时才会被 reject。我们测试下
-```
+```js
 const promise = new Promise((resolve, reject) => {
   setTimeout(() => {
     reject('fail')
@@ -360,7 +360,7 @@ success-2: test
 也就是第一个Promise里的reject是进入失败回调函数，输出'fail-1'，然后失败回调函数里返回了test，此时就是新的Promise实例的返回，是resolve状态，因此进入了下一个then的成功回调函数，输出'success-2'。
 ## 异常处理
 以上我们已经实现了Promise的链式调用，只要正常使用没啥问题，但如果使用时出现错误，错误得不到处理，就会报错。
-```
+```js
 const promise = new Promise((resolve, reject) => {
   throw new Error('error')
 })
@@ -372,7 +372,7 @@ promise.then((value) => {
 ```
 以上会报错，也就是错误没有被处理，我们的Promise面对异常情况还十分脆弱。所以我们要对异常情况做下处理。
 构造函数中
-```
+```js
 function Promise (fn) {
   // code...(省略其他代码)
   try {
@@ -383,7 +383,7 @@ function Promise (fn) {
 }
 ```
 then方法中
-```
+```js
 Promise.prototype.then = function(onFulfilled, onRejected) {
   return new Promise ((resolve, reject) => {
     if (this.status === 'pending') { // pending时注册回调函数
@@ -435,7 +435,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 
 ## 值穿透
 看下这个例子
-```
+```js
 const promise = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve('success')
@@ -449,7 +449,7 @@ promise.then().then(1).then((res) => {
 ```
 按目前的实现，会报错'onRejected is not a function'，因为then无法处理非函数的传参，但是采用原生Promise会输出'success:success'，这是因为原生Promise支持了值穿透。简单来说，就是then方法里不传成功/失败回调函数时，就直接忽略传参，默认直接返回value。
 > 说明下，为什么不是报错'onFulfilled is not a function'。实际上'onFulfilled is not a function'的错误也报了，只是在then里push回调函数时，onRejected在后面，所以最终打印出了后面抛出的错误。
-```
+```js
 Promise.prototype.then = function(onFulfilled, onRejected) {
   // onFulfilled/onRejected如果不是函数，就忽略onFulfilled/onRejected，直接返回value/抛出错误
   onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
@@ -504,7 +504,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 
 ## resolvePromise
 Promise的规范规定，resolve能处理各种类型的值，包括Promise实例，将其处理成普通值fulfilled或者直接rejected。显然我们目前的resolve还只能处理基本类型的值，而能处理Promise对象这一能力在日常使用中非常有必要。我们先来模拟一个日常的使用场景。
-```
+```js
 let p = new Promise((resolve, reject) => {
   setTimeout(() => {
     resolve(0)
@@ -532,7 +532,7 @@ let f3 = function(data) {
 p.then(f1).then(f2).then(f3)
 ```
 用setTimeout来模拟异步任务。以上场景就是f1依赖p的结果、f2依赖f1、f3依赖f2，预期是想要间隔一秒按顺序输出0, 1, 2，但按目前的实现，会在1s的时候同时输出
-```
+```js
 0
 Promise { status: 'pending',
   value: null
@@ -554,7 +554,7 @@ Promise { status: 'pending',
 ### 实现
 首先，新增一个函数fulfill，该函数只是一个Promise状态改变器。状态改变后，使用传进来的普通值，调用回调数组里面的回调函数。
 resolve函数用于处理传入的参数，将传入的参数处理为一个基本类型，并根据处理的情况，决定调用fulfill还是reject来改变状态。
-```
+```js
 function resolve(value) {
   resolvePromise(self,value,fulfill,reject)
 }
@@ -568,7 +568,7 @@ function fulfill (value) {
 }
 ```
 然后实现resolvePromise
-```
+```js
 function resolvePromise(promise, x, fulfill, reject) {
   if (promise === x) {//传进来的x与当前promise相同，报错
     return reject(new TypeError('循环引用了'))
@@ -592,7 +592,7 @@ function resolvePromise(promise, x, fulfill, reject) {
 ### 测试
 再试下以上的例子，就是每次一秒依次输出0, 1, 2了。
 为了更好的理解，我们可以改下例子中的f1（日常使用场景不会这样用，只是为了说明问题）
-```
+```js
 let f1 = function(data) {
   console.log(data)
   return new Promise((resolve, reject) => {
@@ -611,7 +611,7 @@ let f1 = function(data) {
 ## 宏任务vs微任务
 这里不就宏任务和微任务展开说明了，涉及到js的执行机制，网上很多文章。
 直接说问题：原生Promise是微任务，但我们实现的时候是采用setTimeout来实现的，属于宏任务。
-```
+```js
 setTimeout(()=>{
   console.log(5)
 })
@@ -650,7 +650,7 @@ console.log(2)
 ## 完整代码
 ### 完善resolvePromise
 resolvePromise除了要能应对基本类型和Promise，还要应对其他可能的类型，这里直接给出[深究Promise的原理及其实现](!https://github.com/yonglijia/JSPI/blob/master/How%20to%20implement%20a%20Promise.md)中的实现。
-```
+```js
 function resolvePromise(promise,x,fulfill,reject) {
 
   if (promise === x) {//2.3.1 传进来的x与当前promise相同，报错
@@ -702,7 +702,7 @@ function resolvePromise(promise,x,fulfill,reject) {
 }
 ```
 ### 完整代码
-```
+```js
 function Promise (fn) {
   const self = this
   self.onFulfilledCallbacks = []
@@ -840,7 +840,7 @@ function resolvePromise(promise,x,fulfill,reject) {
 1、在后面加上下述代码
 2、npm 有一个promises-aplus-tests插件 npm i promises-aplus-tests -g 全局安装
 3、命令行 promises-aplus-tests [js文件名] 即可验证
-```
+```js
 Promise.deferred = Promise.defer = function () {
   var dfd = {}
   dfd.promise = new Promise(function (resolve, reject) {
@@ -855,7 +855,7 @@ module.exports = Promise
 (![](https://tva1.sinaimg.cn/large/00831rSTgy1gcpzzitfwvj30ve0mi41d.jpg))
 ## 其他方法
 有了上面的理解，其他方法也就很好实现，也很好理解了。
-```
+```js
 Promise.prototype.catch = function(callback){ 
   return this.then(null,callback)
 }
