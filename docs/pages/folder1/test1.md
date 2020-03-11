@@ -853,7 +853,47 @@ module.exports = Promise
 ```
 如图，全部通过啦！
 (![](https://tva1.sinaimg.cn/large/00831rSTgy1gcpzzitfwvj30ve0mi41d.jpg))
-
+### 其他方法
+有了上面的理解，其他方法也就很好实现，也很好理解了。
+```
+Promise.prototype.catch = function(callback){ 
+  return this.then(null,callback)
+}
+Promise.resolve = function(value){ //返回一个promise
+  return new Promise(function(resolve,reject){
+      resolve(value);
+  })
+}
+Promise.reject = function(value){//返回一个promise
+  return new Promise(function(resolve,reject){
+      reject(value);
+  })
+}
+Promise.race = function(promises){//只要有一个成功了就resolve,有一个失败了就reject
+  return new Promise(function (resolve,reject){
+      for(var i = 0;i<promises.length;i++){
+          promise[i].then(resolve,reject)
+      }
+  })
+}
+Promise.all = function(promises){ //所有的都成功了resolve，有一个失败了就reject
+  return new Promise(function(resolve,reject){
+    let resultArr = [];
+    let times = 0;
+    function processData(index,y){
+      resultArr[index]= y;
+      if(++times === promises.length){
+          resolve(resultArr)
+      }
+    }
+    for(var i = 0;i<promises.length;i++){
+      promises[i].then(function(y){
+          processData(i,y)
+      },reject)
+    }
+  })
+}
+```
 
 
 参考:
