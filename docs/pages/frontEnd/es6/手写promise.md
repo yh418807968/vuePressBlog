@@ -1,8 +1,8 @@
-### 一、基础Promise
-#### 目标：
+## 基础Promise
+### 目标：
 * 1、可以创建promise实例
 * 2、执行异步代码，成功后可以执行then里的成功回调函数、失败可以执行then里的失败回调函数
-#### 分析：
+### 分析：
 根据原生Promise的使用方法
 ```
 const promise = new Promise((resolve, reject) => {
@@ -18,7 +18,7 @@ promise.then((res) => {
 可以知道
 * 1、Promise是一个构造函数，入参是一个fn函数，fn函数的参数为2个函数：resolve和reject
 * 2、promise实例的then方法，接受2个回调函数（这里定为onFulfilled, onRejected）作为参数，执行then的时候，回调函数并不执行，而是分别在resolve和reject的场景下触发
-#### 实现
+### 实现
 那我们就可以先写出一个简易版本了
 ```
 function Promise (fn) {
@@ -44,7 +44,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
   this.onRejected = () => { onRejected(this.error) }
 }
 ```
-#### 测试
+### 测试
 用setTimeout模拟异步操作
 ```
 const promise = new Promise((resolve, reject) => {
@@ -60,7 +60,7 @@ promise.then((res) => {
   console.log(err) // fail
 })
 ```
-#### 扩展一下
+### 扩展一下
 then方法是可以多次重复调用的，且当resolve/reject时，多个then都会执行；而我们上面的onFulfilled/onRejected都只有一个，只能执行最新的，因此我们改进一下，以满足then方法的多次调用。
 只需要将回调函数改为数组就可以了。
 ```
@@ -105,17 +105,17 @@ const promise = new Promise((resolve, reject) => {
 		console.log(err, 2) // 'fail, 2'
 	})
 ```
-#### 小结
+### 小结
 如上，我们已经实现了Promise的基本功能。
 then方法负责注册成功回调函数onFulfilled和失败回调函数onRejected，待成功/失败时，执行resolve/reject，从而将结果赋值给value/error，并执行onFulfilled/onRejected。
 
-#### 二、三种状态
+## 三种状态
 我们都知道，Promise有3种状态pending（进行中）、fulfilled（已成功）和rejected（已失败），通过异步请求的结果决定当前状态；状态只能由pending变为fulfilled或rejected；状态一旦改变，则不能改变也不可逆；如果状态已经改变，此时注册的then里的回调函数则会直接执行。
-#### 目标
+### 目标
 * 1、Promise有3种状态
 * 2、通过异步请求的结果决定当前状态，状态只能由pending变为fulfilled或rejected，状态一旦改变，则不能改变也不可逆
 * 3、如果状态已经改变，之后再调用的then方法里的回调函数则会直接执行
-#### 实现
+### 实现
 ```
 function Promise (fn) {
   const self = this
@@ -157,7 +157,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 目标1的实现：变量status来表示状态
 目标2的实现：只有resolve函数和reject函数可以改变status的值，且只有当status为pending时才可改变（且只能变为fulfilled或rejected），这样同时可满足状态一旦改变，便无法再被改变
 目标3的实现：then方法里只有状态为pending时是注册保存回调函数，resolved/rejected下则直接执行回调函数。
-#### 测试
+### 测试
 ```
 const promise = new Promise((resolve, reject) => {
   setTimeout(() => { // 模拟异步操作
@@ -185,7 +185,7 @@ setTimeout(() => { // 等1s的resolve执行后再调用then方法
 ```
 没有输出fail，说明状态一旦改变为resolved了，便不能再被改变了（没有改变为rejected）;2s时，此时状态已经改变为resolved，直接执行回调函数，输出"success, 2"。
 
-### then异步执行
+## then异步执行
 使用过Promise的话就都知道，根据js的执行机制，then方法里的回调函数并不是同步执行的，而是一个微任务，等到当前循环的同步任务执行完了才会被执行。
 测试下
 ```
@@ -215,7 +215,7 @@ console.log('script end')
 ```
 把异步任务改为同步，此时就会先输出'success'然后'script end'，这显然和原生Promise的表现不一样。
 因此我们要保证不管是异步任务还是同步任务，then里的回调都是异步执行的。
-#### 实现
+### 实现
 原生Promise的then里的回调是微任务，这里暂时用宏任务setTimeout来实现模拟下，后面会讲到如何修改。
 ```
 Promise.prototype.then = function(onFulfilled, onRejected) {
@@ -242,11 +242,11 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 }
 ```
 只需要将在then方法里的回调函数加上setTimeout，即可实现异步执行。
-#### 测试
+### 测试
 直接用以上提到的测试用例，结果是先输出'script end'然后输出'success'，符合预期。
-#### 小结
+### 小结
 此时我们实现的Promise已经能满足日常大部分的使用场景了。接下来，我们主要来看看Promise的链式调用，这也是Promise的主要特色，通过链式调用避免回调地狱。
-### 链式调用
+## 链式调用
 提到链式，可能第一反应就是想到通过再then方法里返回this来实现，Jquery就是这么实现的，但是Promise的链式调用有些不一样。
 如果then方法里返回this，则前一个then方法的回调函数执行后，状态已经改变；由于返回的this，即同一个promise实例，则下一个then就会直接执行
 ```
@@ -294,7 +294,7 @@ success-1
 ```
 执行第二个then里的回调函数时，状态已经改变，会直接执行；输出结果没有出现第一个then里返回的success-2，因为此时返回的还是实例promise，此时的self.value是'success-1'，'success-2'会被忽略掉。
 想要第二个then能获取到第一个then的返回值，需要第一个then返回一个新的thenable对象，这里我们返回一个新的Promise实例。
-#### 实现
+### 实现
 ```
 Promise.prototype.then = function(onFulfilled, onRejected) {
   return new Promise ((resolve, reject) => {
@@ -326,7 +326,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 }
 ```
 只需要将返回的this改为一个Promise实例，并通过`resolve(回调函数的返回值x)`将x传递给下一个then即可。
-#### 测试
+### 测试
 还是刚刚的例子，此时返回结果为
 ```
 success-1
@@ -358,7 +358,7 @@ fail-1: fail
 success-2: test
 ```
 也就是第一个Promise里的reject是进入失败回调函数，输出'fail-1'，然后失败回调函数里返回了test，此时就是新的Promise实例的返回，是resolve状态，因此进入了下一个then的成功回调函数，输出'success-2'。
-### 异常处理
+## 异常处理
 以上我们已经实现了Promise的链式调用，只要正常使用没啥问题，但如果使用时出现错误，错误得不到处理，就会报错。
 ```
 const promise = new Promise((resolve, reject) => {
@@ -433,7 +433,7 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
 ```
 此时再测试下上面的例子，错误被捕获了，也就是此时对于我们的Promise就具备异常处理的能力了。
 
-### 值穿透
+## 值穿透
 看下这个例子
 ```
 const promise = new Promise((resolve, reject) => {
@@ -499,10 +499,10 @@ Promise.prototype.then = function(onFulfilled, onRejected) {
   })
 }
 ```
-#### 测试
+### 测试
 此时再测试上面的例子，就会输出'success:success'了。
 
-### resolvePromise
+## resolvePromise
 Promise的规范规定，resolve能处理各种类型的值，包括Promise实例，将其处理成普通值fulfilled或者直接rejected。显然我们目前的resolve还只能处理基本类型的值，而能处理Promise对象这一能力在日常使用中非常有必要。我们先来模拟一个日常的使用场景。
 ```
 let p = new Promise((resolve, reject) => {
@@ -548,10 +548,10 @@ Promise { status: 'pending',
 }
 ```
 和预期的不一样，前面then返回的Promise实例直接被传递给下一个then了。我们需要针对这种情况做下处理。
-#### 目标
+### 目标
 * 1、能处理非基本类型值的resolve函数
 * 2、如果resolve的传参是Promise实例对象，则要将此实例对象的返回值传递到外层
-#### 实现
+### 实现
 首先，新增一个函数fulfill，该函数只是一个Promise状态改变器。状态改变后，使用传进来的普通值，调用回调数组里面的回调函数。
 resolve函数用于处理传入的参数，将传入的参数处理为一个基本类型，并根据处理的情况，决定调用fulfill还是reject来改变状态。
 ```
@@ -589,7 +589,7 @@ function resolvePromise(promise, x, fulfill, reject) {
 }
 ```
 这一段不太好理解，要多看看多想想。主旨就是通过递归调用的方式，将里层的返回值传到外层，实现的方式就是通过then，因为每执行一次then相当于脱掉一层promise的外壳。
-#### 测试
+### 测试
 再试下以上的例子，就是每次一秒依次输出0, 1, 2了。
 为了更好的理解，我们可以改下例子中的f1（日常使用场景不会这样用，只是为了说明问题）
 ```
@@ -608,7 +608,7 @@ let f1 = function(data) {
 ```
 会发现即使多了一层Promise，依然是每次一秒依次输出0, 1, 2。也就是说resolvePromise最本质的作用，就是脱去参数的一层层Promise外壳，直接将最里层的普通出传递出来。
 > resolvePromise要更完善，应该还要对所有类型都处理，这里只对Promise做了处理，这也是resolvePromise最大的作用，其他边边角角的处理，我就暂时没研究，后面测试部分会直接给出完成代码。
-### 宏任务vs微任务
+## 宏任务vs微任务
 这里不就宏任务和微任务展开说明了，涉及到js的执行机制，网上很多文章。
 直接说问题：原生Promise是微任务，但我们实现的时候是采用setTimeout来实现的，属于宏任务。
 ```
@@ -647,8 +647,8 @@ console.log(2)
 3
 5
 ```
-### 完整代码
-#### 完善resolvePromise
+## 完整代码
+### 完善resolvePromise
 resolvePromise除了要能应对基本类型和Promise，还要应对其他可能的类型，这里直接给出[深究Promise的原理及其实现](!https://github.com/yonglijia/JSPI/blob/master/How%20to%20implement%20a%20Promise.md)中的实现。
 ```
 function resolvePromise(promise,x,fulfill,reject) {
@@ -701,7 +701,7 @@ function resolvePromise(promise,x,fulfill,reject) {
   }
 }
 ```
-#### 完整代码
+### 完整代码
 ```
 function Promise (fn) {
   const self = this
@@ -835,7 +835,7 @@ function resolvePromise(promise,x,fulfill,reject) {
   }
 }
 ```
-### 验证我们的代码
+## 验证我们的代码
 步骤：
 1、在后面加上下述代码
 2、npm 有一个promises-aplus-tests插件 npm i promises-aplus-tests -g 全局安装
@@ -853,7 +853,7 @@ module.exports = Promise
 ```
 如图，全部通过啦！
 (![](https://tva1.sinaimg.cn/large/00831rSTgy1gcpzzitfwvj30ve0mi41d.jpg))
-### 其他方法
+## 其他方法
 有了上面的理解，其他方法也就很好实现，也很好理解了。
 ```
 Promise.prototype.catch = function(callback){ 
