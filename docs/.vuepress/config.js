@@ -31,7 +31,7 @@ module.exports = {
                 //     { text: '琐碎', link: '/pages/folder2/test4.md' },
                 // ]
             },
-            { text: '网络', link: '/pages/network/test1.md' },
+            { text: '网络', link: '/pages/network/other/输入url到页面展示发生了什么.md' },
             
             //格式三：跳转至外部网页，需http/https前缀
             { text: 'Github', link: 'https://github.com/yh418807968' },
@@ -80,7 +80,7 @@ module.exports = {
                     collapsable: false, // false为默认展开菜单, 默认值true是折叠,
                     sidebarDepth: 1,    //  设置侧边导航自动提取markdown文件标题的层级，默认1为h2层级
                     children: [
-                        
+                    
                     ]
                 },
                 {
@@ -89,6 +89,14 @@ module.exports = {
                     sidebarDepth: 1,
                     children: [
                        
+                    ]
+                },
+                {
+                    title: '综合',
+                    collapsable: false, 
+                    sidebarDepth: 2,
+                    children: [
+                       ['other/输入url到页面展示发生了什么.md', '输入url到页面展示发生了什么.md']
                     ]
                 }
             ],
