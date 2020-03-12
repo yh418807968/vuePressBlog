@@ -55,14 +55,21 @@ module.exports = {
                 {
                     title: 'js基础',
                     children: [
-                       
+                       ['js基础/执行上下文栈', '执行上下文栈'],
+                       ['js基础/变量对象', '变量对象'],
+                       ['js基础/作用域链', '作用域链'],
+                       ['js基础/this', 'this'],
+                       ['js基础/闭包', '闭包'],
+                       ['js基础/柯里化', '柯里化'],
                     ]
                 },      
                 {
                     title: 'es6',   // 一级菜单名称
                     collapsable: false, // false为默认展开菜单, 默认值true是折叠,
                     children: [
-                        ['es6/手写promise.md', '手写promise']
+                        ['es6/手写promise', '手写promise'],
+                        ['es6/let、const的暂时性死区', 'let、const的暂时性死区'],
+                        ['es6/let、const', 'let、const']
                     ]
                 },
                 {
