@@ -22,7 +22,7 @@ module.exports = {
             //格式二：添加下拉菜单，link指向的文件路径
             {
                 text: '前端',  //默认显示   
-                link: '/pages/frontEnd/es6/'     
+                link: '/pages/frontEnd/'     
                 // ariaLabel: '分类',   //用于识别的label
 
                 // items: [
