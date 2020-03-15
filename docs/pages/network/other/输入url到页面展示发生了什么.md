@@ -249,7 +249,7 @@ GPU进程来按上述的绘制列表执行绘制操作，最终显示出页面�
 
 
 
-## 参考资料
+## 参考
 * [史上最全！图解浏览器的工作原理](https://www.infoq.cn/article/CS9-WZQlNR5h05HHDo1b)
 * [一文读懂一个URL请求的过程是怎样的](https://juejin.im/post/5b83b0bfe51d4538c63131a8#heading-21)
 * [从输入URL到页面加载的过程？如何由一道题完善自己的前端知识体系！](!https://juejin.im/post/5aa5cb846fb9a028e25d2fb1#comment)

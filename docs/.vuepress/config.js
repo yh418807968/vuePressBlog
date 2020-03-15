@@ -61,11 +61,12 @@ module.exports = {
                        ['js基础/this', 'this'],
                        ['js基础/闭包', '闭包'],
                        ['js基础/柯里化', '柯里化'],
+                       ['js基础/4种循环比较', '4种循环比较']
                     ]
                 },      
                 {
                     title: 'es6',   // 一级菜单名称
-                    collapsable: false, // false为默认展开菜单, 默认值true是折叠,
+                    collapsable: true, // false为默认展开菜单, 默认值true是折叠,
                     children: [
                         ['es6/手写promise', '手写promise'],
                         ['es6/let、const的暂时性死区', 'let、const的暂时性死区'],
@@ -87,7 +88,7 @@ module.exports = {
                     collapsable: false, // false为默认展开菜单, 默认值true是折叠,
                     sidebarDepth: 1,    //  设置侧边导航自动提取markdown文件标题的层级，默认1为h2层级
                     children: [
-                    
+                        ['HTTP/https', 'https']
                     ]
                 },
                 {
