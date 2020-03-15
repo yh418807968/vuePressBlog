@@ -22,7 +22,7 @@ module.exports = {
             //格式二：添加下拉菜单，link指向的文件路径
             {
                 text: '前端',  //默认显示   
-                link: '/pages/frontEnd/'     
+                link: '/pages/frontEnd/js基础/执行上下文栈'     
                 // ariaLabel: '分类',   //用于识别的label
 
                 // items: [
@@ -95,6 +95,7 @@ module.exports = {
                     collapsable: false, 
                     sidebarDepth: 1,
                     children: [
+                        ['TCP/TCP连接的建立和断开', 'TCP连接的建立和断开'],
                        
                     ]
                 },
