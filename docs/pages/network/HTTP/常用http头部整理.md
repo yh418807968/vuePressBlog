@@ -50,42 +50,85 @@ Referer指明了当前请求页面的**来源页面**的地址（**完整地址�
 ### Origin
 Origin指明了请求来自于哪个站点，即**协议+域名+端口号**。
 用途：主要用于CORS请求。
-https://juejin.im/post/5d8dd391f265da5b991d4b39
-* User-Agent
-ser-Agent用于指明浏览器的种类，一般格式如下：
+[HTTP headers 之 host, referer, origin](https://juejin.im/post/5d8dd391f265da5b991d4b39)
+
+### User-Agent
+
+User-Agent用于指明浏览器的种类，一般格式如下：
 ```
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36
 ```
-* Accept
-Accept指明能接受的文件类型
-Accept-Charset、Accept-Encoding、Accept-Language
-* Expires
-* If-Modified-Since
-* If-None-Match
-* Range
-* Cookie
+### Accept
+
+Accept指明能接受的文件类型，格式为`type/subtype`形式
+```
+text/html, text/plain
+image/jpeg, image/gif, image/png
+application/octet-stream, application/zip
+```
+还可使用q=来指明媒体类型的优先级，用分号(;)进行分隔。权重值q的范围是0-1(可精确到小数点后3 位)，且1为最大值。不指定权重q值时，默认权重为q=1.0
+> 同类型的请求头还有：
+> * Accept-Charset:指明能接受的字符集
+> * Accept-Encoding:指明能接受的内容编码
+> * Accept-Language:指明能接受的的语言集
+> 以上三种首部，都和Accept一样，可通过q=来设置优先级。
+
+### If-Modified-Since
+
+If-Modified-Since告知服务器，若If-Modified-Since字段值早于资源的最后更新时间（Last-Modified），则处理该请求，否则返回304（Not Modified）响应。
+### If-None-Match
+
+If-None-Match指明资源的Etag，若服务器上的资源的Etag与此不一致，则表明资源已发生变化，告知服务器处理该请求，否则返回304（Not Modified）响应。
+### Cookie
+
+Cookie为之前从服务端收到的Cookie，用于HTTP的状态管理。
 
 
  
 ## 常用的响应头
-* Server：服务器的一些相关信息
+### Server
+Server提供服务器的一些相关信息
+```
+Server: Apache/2.2.17 (Unix)
+Server: nginx/1.10.2
+```
+
 * Access-Control-Allow-Headers: 服务器端允许的请求Headers
 * Access-Control-Allow-Methods: 服务器端允许的请求方法
 * Access-Control-Allow-Origin: 服务器端允许的请求Origin头部（譬如为*）
 
 
-Set-Cookie：设置和页面关联的cookie，服务器通过这个头部把cookie传给客户端
-Keep-Alive：如果客户端有keep-alive，服务端也会有响应（如timeout=38）
+### Set-Cookie
+设置和页面关联的cookie，服务器通过这个头部把cookie传给客户端
+Set-Cookie的字段值
+```
+属性 　　　　　　　　　　说明
+NAME=VALUE 　　　　　　 赋予Cookie的名称和其值(必需项)
+expires=DATE    　　　 Cookie的有效期(若不明确指定则默认为浏览器 关闭前为止)
+path=PATH 　　　　　　  将服务器上的文件目录作为Cookie的适用对象(若不指定则默认为文档所在的文件目录)
+domain=域名 　　　　　　作为Cookie适用对象的域名(若不指定则默认为 创建Cookie的服务器的域名)
+Secure 　　　　　　　　 仅在HTTPS安全通信时才会发送Cookie
+HttpOnly 　　　　　　　加以限制，使Cookie不能被JavaScript脚本访问
+```
+多个字段间以;分隔，如`Set-Cookie: name=value; HttpOnly`
 
 
 ## 常用的实体首部
-* Location
-* Content系列
-Content-Encoding、Content-Language、Content-Range、Content-Length、Content-Type等
+### Location
+Location字段一般配合3**响应码使用，提供重定向的URI。
+### Content系列
+* Content-Encoding：指明服务器对实体内容采用的编码方式。主要采用以下4种内容编码的方式：gzip、compress、deflate、identity
+> 注意区分Content-Encoding和Transfer-Encoding，Content-Encoding是指**资源**的编码方式（压缩方式），Transfer-Encoding是指**报文**的编码方式。
+* Content-Language：指明实体内容使用的自然语言
 
-通常如果 Content-Length 比实际长度短，会造成内容被截断；如果比实体内容长，会造成 pending。
-* 缓存系列
-Last-Modified：请求资源的最后修改时间
-Expires：应该在什么时候认为文档已经过期,从而不再缓存它
-Etag
+* Content-Length：指明实体内容的大小
+> 对实体主体进行内容编码传输时，不能再使用Content-Length首部字段
+> 通常如果 Content-Length 比实际长度短，会造成内容被截断；如果比实体内容长，会造成 pending。
+* Content-Type：指明实体内容的媒体类型，和首部字段Accept一样，字段值用type/subtype形式赋值。
+
+### Last-Modified
+Last-Modified指明资源最终修改时间。客户端下次访问时，会在If-Modified-Since字段中带上该字段的值。
+
+### Etag
+Etag指明资源的实体标识。客户端下次访问时，会在If-None-Match字段中带上该实体标识。
 
