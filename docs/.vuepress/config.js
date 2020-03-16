@@ -89,7 +89,8 @@ module.exports = {
                     sidebarDepth: 1,    //  设置侧边导航自动提取markdown文件标题的层级，默认1为h2层级
                     children: [
                         ['HTTP/https', 'https'],
-                        ['HTTP/常用http头部整理', '常用http头部整理']
+                        ['HTTP/常用http头部整理', '常用http头部整理'],
+                        ['HTTP/http缓存', 'http缓存']
                     ]
                 },
                 {
