@@ -78,9 +78,17 @@ module.exports = {
                     title: 'vue', 
                     sidebarDepth: 1,
                     children: [
-                       
+                       ['vue/v-for为什么要加key，能用index作为key吗', 'v-for为什么要加key，能用index作为key吗'],
+                       ['vue/vue为什么不能检测数组的变化', 'vue为什么不能检测数组的变化']
                     ]
                 },
+                {
+                    title: '工程化', 
+                    sidebarDepth: 1,
+                    children: [
+                       ['工程化/从babel谈AST', '从babel谈AST']
+                    ]
+                }
                 
             ],
             '/pages/network/':[         
