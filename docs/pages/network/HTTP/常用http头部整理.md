@@ -18,12 +18,11 @@ Date用于指明报文创建的日期和时间。
 Transfer-Encoding用于指明报文采用的编码方式。
 
 最新的HTTP版本中，此属性只有一个值：chunked（分块编码）。在头部加入 Transfer-Encoding: chunked 之后，就代表这个报文采用了分块编码。
-报文的实体通过分块传输，最后一个分块长度值为0表示分块传输完毕。
-> [HTTP 协议中的 Transfer-Encoding](https://imququ.com/post/transfer-encoding-header-in-http.html)
+报文的实体通过分块传输，最后一个分块长度值为0表示分块传输完毕。（即不需要服务器提前计算资源大小，并通过content-length告知）。
+> 更多可参考[HTTP 协议中的 Transfer-Encoding](https://imququ.com/post/transfer-encoding-header-in-http.html)
 ### Cache-control
 Cache-control用于控制缓存的相关机制。
 参考：[前端学HTTP之报文首部](https://www.cnblogs.com/xiaohuochai/p/6159326.html#anchor3)和[http缓存](./http缓存.md)
-
 
 
 ## 常用的请求头

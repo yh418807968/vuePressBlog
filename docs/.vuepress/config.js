@@ -99,7 +99,8 @@ module.exports = {
                     children: [
                         ['HTTP/https', 'https'],
                         ['HTTP/常用http头部整理', '常用http头部整理'],
-                        ['HTTP/http缓存', 'http缓存']
+                        ['HTTP/http缓存', 'http缓存'],
+                        ['HTTP/各版本http对比', '各版本http对比']
                     ]
                 },
                 {
