@@ -32,6 +32,7 @@ module.exports = {
                 // ]
             },
             { text: '网络', link: '/pages/network/other/输入url到页面展示发生了什么.md' },
+            { text: '其他', link: '/pages/other/linux命令行.md' },
             
             //格式三：跳转至外部网页，需http/https前缀
             { text: 'Github', link: 'https://github.com/yh418807968' },
@@ -121,6 +122,14 @@ module.exports = {
                     ]
                 }
             ],
+            'pages/other/': [
+                { 
+                    title: '工具类',
+                    children: [
+                        ['linux命令行', 'linux命令行']
+                    ]
+                }
+            ]
             
             //...可添加多个不同的侧边栏，不同页面会根据路径显示不同的侧边栏
         }
