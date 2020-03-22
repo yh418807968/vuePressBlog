@@ -63,7 +63,8 @@ module.exports = {
                        ['js基础/闭包', '闭包'],
                        ['js基础/柯里化', '柯里化'],
                        ['js基础/4种循环比较', '4种循环比较'],
-                       ['js基础/原型链继承', '原型链继承']
+                       ['js基础/原型链继承', '原型链继承'],
+                       ['js基础/跨域通信', '跨域通信']
                     ]
                 },      
                 {
@@ -122,11 +123,13 @@ module.exports = {
                     ]
                 }
             ],
-            'pages/other/': [
+            '/pages/other/': [
                 { 
                     title: '工具类',
+                    // sidebarDepth: 1,
                     children: [
-                        ['linux命令行', 'linux命令行']
+                        ['linux命令行', 'linux命令行'],
+                        ['Base64', 'Base64']
                     ]
                 }
             ]
