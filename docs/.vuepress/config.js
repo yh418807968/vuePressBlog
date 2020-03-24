@@ -91,6 +91,14 @@ module.exports = {
                     children: [
                        ['工程化/从babel谈AST', '从babel谈AST']
                     ]
+                },
+                {
+                    title: '安全', 
+                    sidebarDepth: 1,
+                    children: [
+                       ['安全/XSS', 'XSS'],
+                       ['安全/CSRF', 'CSRF']
+                    ]
                 }
                 
             ],
