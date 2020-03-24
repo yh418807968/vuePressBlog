@@ -50,7 +50,7 @@ module.exports = {
                 {
                     title: 'css',
                     children: [
-                       
+                       ['css/border实现三角形的原理', 'border实现三角形的原理']
                     ]
                 },  
                 {
@@ -64,7 +64,8 @@ module.exports = {
                        ['js基础/柯里化', '柯里化'],
                        ['js基础/4种循环比较', '4种循环比较'],
                        ['js基础/原型链继承', '原型链继承'],
-                       ['js基础/跨域通信', '跨域通信']
+                       ['js基础/跨域通信', '跨域通信'],
+                       ['js基础/为什么要用Object.prototype.toString检测对象类型', '为什么要用Object.prototype.toString检测对象类型']
                     ]
                 },      
                 {
