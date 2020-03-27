@@ -31,7 +31,8 @@ module.exports = {
                 //     { text: '琐碎', link: '/pages/folder2/test4.md' },
                 // ]
             },
-            { text: '网络', link: '/pages/network/other/输入url到页面展示发生了什么.md' },
+            { text: '网络', link: '/pages/network/TCP/TCP连接的建立和断开.md' },
+            { text: '浏览器', link: '/pages/browser/输入url到页面展示发生了什么.md' },
             { text: '其他', link: '/pages/other/linux命令行.md' },
             
             //格式三：跳转至外部网页，需http/https前缀
@@ -44,7 +45,7 @@ module.exports = {
                 {
                     title: 'html',
                     children: [
-                       
+                       ['html/XML、HTML、XHTML', 'XML、HTML、XHTML']
                     ]
                 }, 
                 {
@@ -64,7 +65,6 @@ module.exports = {
                        ['js基础/柯里化', '柯里化'],
                        ['js基础/4种循环比较', '4种循环比较'],
                        ['js基础/原型链继承', '原型链继承'],
-                       ['js基础/跨域通信', '跨域通信'],
                        ['js基础/为什么要用Object.prototype.toString检测对象类型', '为什么要用Object.prototype.toString检测对象类型']
                     ]
                 },      
@@ -122,15 +122,12 @@ module.exports = {
                         ['TCP/TCP连接的建立和断开', 'TCP连接的建立和断开'],
                        
                     ]
-                },
-                {
-                    title: '综合',
-                    collapsable: false, 
-                    sidebarDepth: 2,
-                    children: [
-                       ['other/输入url到页面展示发生了什么.md', '输入url到页面展示发生了什么.md']
-                    ]
                 }
+            ],
+            '/pages/browser/': [
+                 ['输入url到页面展示发生了什么', '输入url到页面展示发生了什么'],
+                 ['cookie', 'cookie'],
+                 ['跨域通信', '跨域通信']
             ],
             '/pages/other/': [
                 { 
