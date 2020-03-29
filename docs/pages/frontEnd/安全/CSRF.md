@@ -66,6 +66,7 @@ CSRF的第一要素是需要用户保持登录状态，而使得浏览器和服�
 
 #### 跨站和跨域
 > 此部分参考冴羽的[预测最近面试会考Cookie 的 SameSite 属性](https://juejin.im/post/5e718ecc6fb9a07cda098c2d#heading-14)
+
 在了解SameSite之前，我们先来理解下什么是跨站，和跨域有什么区别。
 
 我们所说的**源(origin)**，是包括协议、域名和端口；因此所谓”同源(same-origin)“，就是协议、域名和端口都需要相同，任一不同，就称为”跨域(cross-origin)“。
