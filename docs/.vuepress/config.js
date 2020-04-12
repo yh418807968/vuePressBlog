@@ -135,7 +135,8 @@ module.exports = {
                     // sidebarDepth: 1,
                     children: [
                         ['linux命令行', 'linux命令行'],
-                        ['Base64', 'Base64']
+                        ['Base64', 'Base64'],
+                        ['ASCII、Unicode', 'ASCII、Unicode']
                     ]
                 }
             ]
