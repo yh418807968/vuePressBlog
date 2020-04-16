@@ -11,7 +11,7 @@ module.exports = {
     //下面涉及到的md文件和其他文件的路径下一步再详细解释
     themeConfig: {
         logo: '/icon.jpeg',  //网页顶端导航栏左上角的图标
-        lastUpdated: 'Last Updated',
+        // lastUpdated: 'Last Updated',
         sidebarDepth: 1,
         
         //顶部导航栏
@@ -70,7 +70,7 @@ module.exports = {
                 },      
                 {
                     title: 'es6',   // 一级菜单名称
-                    collapsable: true, // false为默认展开菜单, 默认值true是折叠,
+                    // collapsable: true, // false为默认展开菜单, 默认值true是折叠,
                     children: [
                         ['es6/手写promise', '手写promise'],
                         ['es6/let、const的暂时性死区', 'let、const的暂时性死区'],

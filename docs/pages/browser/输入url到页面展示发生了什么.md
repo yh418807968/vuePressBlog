@@ -1,4 +1,4 @@
-::: tip
+<!-- ::: tip
 待补充
 * DNS解析和http报文组装哪个在前面
 * DNS的缓存到底有几种（dns-prefetch也可以了解下）
@@ -6,7 +6,7 @@
 * 各部分分别触发什么事件，loaded和domcontentloaded
 * https可以提下，然后链接到https的文章
 * 各方法的区别
-:::
+::: -->
 
 
 ## 前言
