@@ -120,7 +120,7 @@ funcs[0](); // Uncaught TypeError: Assignment to constant variable.
 通过[Babel转换器](https://babeljs.io/repl)看看Babel是如何转化let的
 ```js
 if (true) {
-  console.log(value)
+    console.log(value)
     let value = 1;
 }
 console.log(value);
@@ -164,6 +164,19 @@ for (var i = 0; i < 10; i++) {
 
 funcs[0](); // 0
 ```
+仔细看下Babel的转换结果，其实就是采用立即执行函数的方案，稍微整理下看的更清楚
+```js
+var funcs = [];
+for (var i = 0; i < 10; i++) {
+    (function _loop(i) {
+        funcs[i] = function () {
+            console.log(i)
+        }
+    })(i)
+}
+funcs[0](); // 0
+```
+
 
 
 

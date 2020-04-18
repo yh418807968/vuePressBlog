@@ -1,7 +1,7 @@
 ## this
 this是与执行上下文绑定的，每个执行上下文都有一个this；执行上下文有3种：全局执行上下文、函数执行上下文和eval执行上下文，因此this也有3种，全局执行上下文中的this、函数执行上下文中的this和eval执行上下文中的this。eval我们很少使用，因此这里我们只讨论全局执行上下文中的this、函数执行上下文中的this。
 ## 全局执行上下文的this
-在全局执行上下文中，this指向全局对象，因此在浏览器环境中，this执行window。
+在全局执行上下文中，this指向全局对象，因此在浏览器环境中，this指向window。
 ## 函数执行上下文的this
 函数执行上下文的this有些复杂，主要是因为它与作用域不同，**不是静态绑定到一个函数的，而是与函数如何被调用有关**，也就是说一个函数每次的this可能不一样。
 > 这里尤其要记住，不要混淆作用域和this，这两者可以说没有任何关系，作用域是在函数定义时就确定的，而this是在函数调用时确定的。
@@ -50,7 +50,7 @@ console.log("obj的value值为:"+obj.value+",window的value值为:"+value);//obj
 >不过要注意，在非严格模式下，当第一个参数为null或undefined时，this将指向window。
 
 ### 构造函数方式
-当一个函数采用new操作符调用时，它就成为构造函数。也就是说，构造函数只是普通函数，只是在new的那一刻，其被成为构造函数。通过new操作符调用一个函数时，new操作符背后干了4件事：
+当一个函数采用new操作符调用时，它就称为构造函数。也就是说，构造函数只是普通函数，只是在new的那一刻，其被成为构造函数。通过new操作符调用一个函数时，new操作符背后干了4件事：
 
 * 创建一个空对象obj
 * 将obj的原型指向构造函数（这样obj就可以访问到构造函数原型中的属性）
@@ -72,7 +72,9 @@ obj.double = function(){
 obj.double();
 console.log("obj的value值为:"+obj.value+",window的value值为:"+value);//obj的value值为:3,window的value值为:4
 ```
-可以发现，执行了obj.double()后，obj.value值并没有变化，而全局变量value的值*2了。因为helper虽然在obj.double内部，但其采用函数模式调用时，this指向的是window而不是obj。解决这个问题也很简单：
+可以发现，执行了obj.double()后，obj.value值并没有变化，而全局变量value的值*2了。因为helper虽然在obj.double内部，但其采用函数模式调用时，this指向的是window而不是obj。
+
+解决这个问题也很简单：
 * 方案一：将this赋值给其他变量保存
 ```js
 var value = 2;
@@ -88,7 +90,7 @@ obj.double();
 console.log("obj的value值为:"+obj.value+",window的value值为:"+value);//obj的value值为:6,window的value值为:2
 ```
 此方法采用一个变量that来保存this，这样helper函数里使用that时其实就与this无关了，就是在使用一个普通的变量。其实，这个方法的的本质是**把 this 体系转换为了作用域的体系**
-* 方案二：es6的箭头函数
+* 方案二：Es6的箭头函数
 ```js
 var value = 2;
 var obj ={value:3}

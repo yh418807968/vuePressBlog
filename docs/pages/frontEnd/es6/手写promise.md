@@ -295,7 +295,7 @@ success-1
 执行第二个then里的回调函数时，状态已经改变，会直接执行；输出结果没有出现第一个then里返回的success-2，因为此时返回的还是实例promise，此时的self.value是'success-1'，'success-2'会被忽略掉。
 想要第二个then能获取到第一个then的返回值，需要第一个then返回一个新的thenable对象，这里我们返回一个新的Promise实例。
 ### 实现
-```js
+```js{2,7,13}
 Promise.prototype.then = function(onFulfilled, onRejected) {
   return new Promise ((resolve, reject) => {
     if (this.status === 'pending') { // pending时注册回调函数
@@ -897,7 +897,7 @@ Promise.all = function(promises){ //所有的都成功了resolve，有一个失�
 
 
 参考:
-* [深究Promise的原理及其实现](!https://github.com/yonglijia/JSPI/blob/master/How%20to%20implement%20a%20Promise.md)
+* [深究Promise的原理及其实现](https://github.com/yonglijia/JSPI/blob/master/How%20to%20implement%20a%20Promise.md)
 * [一起学习造轮子（一）：从零开始写一个符合Promises/A+规范的promise](https://juejin.im/post/5b16800fe51d4506ae719bae#heading-5)
 
 
