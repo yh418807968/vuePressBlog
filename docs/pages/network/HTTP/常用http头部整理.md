@@ -68,7 +68,7 @@ application/octet-stream, application/zip
 还可使用q=来指明媒体类型的优先级，用分号(;)进行分隔。权重值q的范围是0-1(可精确到小数点后3 位)，且1为最大值。不指定权重q值时，默认权重为q=1.0
 > 同类型的请求头还有：
 > * Accept-Charset:指明能接受的字符集
-> * Accept-Encoding:指明能接受的内容编码
+> * Accept-Encoding:指明能接受的内容编码(压缩方式)
 > * Accept-Language:指明能接受的的语言集
 > 以上三种首部，都和Accept一样，可通过q=来设置优先级。
 
@@ -91,12 +91,6 @@ Server提供服务器的一些相关信息
 Server: Apache/2.2.17 (Unix)
 Server: nginx/1.10.2
 ```
-
-* Access-Control-Allow-Headers: 服务器端允许的请求Headers
-* Access-Control-Allow-Methods: 服务器端允许的请求方法
-* Access-Control-Allow-Origin: 服务器端允许的请求Origin头部（譬如为*）
-
-
 ### Set-Cookie
 设置和页面关联的cookie，服务器通过这个头部把cookie传给客户端
 Set-Cookie的字段值
