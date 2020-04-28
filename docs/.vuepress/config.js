@@ -62,7 +62,7 @@ module.exports = {
                        ['js基础/作用域链', '作用域链'],
                        ['js基础/this', 'this'],
                        ['js基础/闭包', '闭包'],
-                       ['js基础/柯里化', '柯里化'],
+                    //    ['js基础/柯里化', '柯里化'],
                        ['js基础/4种循环比较', '4种循环比较'],
                        ['js基础/原型链继承', '原型链继承'],
                        ['js基础/为什么要用Object.prototype.toString检测对象类型', '为什么要用Object.prototype.toString检测对象类型']
