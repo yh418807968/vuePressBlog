@@ -38,3 +38,17 @@ https://juejin.im/post/5be95fbef265da61327ed8e0
 <meta name="viewport" content="viewport-fit=cover">
 ```
 * 设置安全距离
+
+### 安卓软键盘顶起页面
+https://blog.csdn.net/Jioho_chen/article/details/83189266
+```js
+fixKeyboardBug () {
+    const oldHeight = window.innerHeight
+    const _this = this
+    window.onresize = () => {
+    const newHeight = window.innerHeight
+    const keyBoardHeight = oldHeight - newHeight
+    _this.$refs.footer.style.bottom = `-${keyBoardHeight}px`
+    }
+}
+```

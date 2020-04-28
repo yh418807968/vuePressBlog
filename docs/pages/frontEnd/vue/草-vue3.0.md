@@ -15,7 +15,16 @@
 #### 更快
 * 数据绑定策略由 Object.defineProperty() 换成了 new Proxy()
 * 更多编译时优化，如：Slot 默认编译为函数
-* 重构了Virtual DOM
+* 重构了Virtual DOM（对于静态节点，会直接跳过不会遍历，即使是动态节点在非常深的层级里）
+比如在遍历这个树时，遍历到根节点后，里面智慧遍历span，第二层的div不会被遍历了
+```html
+<div>
+    <div>
+        <span>{{msg}}</span>
+    </div>
+</div>
+
+```
 #### 加强 TypeScript 支持
 #### 加强 API 设计一致性
 参考React Hooks的思想，引入Composition API，即以类似于组件模块的形式引入一个特定功能（包括data，methods）等，也就是一个模块包含自己需要的data、methods等，而不是打平写在一起。以小的函数形式被调用，更加灵活，更好维护，更好 tree-shaking
