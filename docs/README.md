@@ -2,7 +2,7 @@
 home: true
 heroImage: /icon.jpeg
 heroText: 小丸子的前端记录
-tagline: 一点一滴都是进步
+tagline: Keep Moving!
 actionText: 马上进入 →
 actionLink: /pages/frontEnd/js基础/执行上下文栈.md
 features:

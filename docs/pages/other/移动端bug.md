@@ -39,7 +39,7 @@ https://juejin.im/post/5be95fbef265da61327ed8e0
 ```
 * 设置安全距离
 
-### 安卓软键盘顶起页面
+### 3、安卓软键盘顶起页面
 https://blog.csdn.net/Jioho_chen/article/details/83189266
 ```js
 fixKeyboardBug () {
@@ -50,5 +50,21 @@ fixKeyboardBug () {
     const keyBoardHeight = oldHeight - newHeight
     _this.$refs.footer.style.bottom = `-${keyBoardHeight}px`
     }
+}
+```
+### 4、IOS键盘自动输入验证码复制2次
+方案：限制input的maxlength
+
+### 5、canvas绘制原型图片
+```js
+const imgPhoto = new Image();
+imgPhoto.src = this.photoUrl
+imgPhoto.onload = function(){
+ctx.save();
+ctx.arc(x + radius, y + radius, radius, 0, 2 * Math.PI);
+// 从画布上裁剪出这个圆形
+ctx.clip();
+ctx.drawImage(imgPhoto, x, y, width, height)
+ctx.restore(); // 还原状态
 }
 ```
