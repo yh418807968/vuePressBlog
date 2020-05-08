@@ -55,7 +55,7 @@ fixKeyboardBug () {
 ### 4、IOS键盘自动输入验证码复制2次
 方案：限制input的maxlength
 
-### 5、canvas绘制原型图片
+### 5、canvas绘制圆形图片
 ```js
 const imgPhoto = new Image();
 imgPhoto.src = this.photoUrl
@@ -67,4 +67,36 @@ ctx.clip();
 ctx.drawImage(imgPhoto, x, y, width, height)
 ctx.restore(); // 还原状态
 }
+```
+
+### 6、canvas绘制图片不清晰问题
+根据[文章](https://www.html.cn/archives/9297)
+
+* 获取像素比
+```js
+getDevRatio (ctx) {
+      let devRatio = window.devicePixelRatio || 1 // 获取设备像素比
+      // ctx的像素比
+      const backingStore = ctx.backingStorePixelRatio ||
+      ctx.webkitBackingStorePixelRatio ||
+      ctx.mozBackingStorePixelRatio ||
+      ctx.msBackingStorePixelRatio ||
+      ctx.oBackingStorePixelRatio ||
+      ctx.backingStorePixelRatio || 1
+      return devRatio / backingStore
+    },
+```
+
+注意基础知识点：
+
+* 要设置canvas的画布大小，使用的是 canvas.width 和 canvas.height；
+* 要设置画布的实际渲染大小，使用的 style 属性或CSS设置的 width 和height，只是简单的对画布进行缩放。
+
+也就是将canvas画布放大，但是展示的渲染大小不变
+```js
+myCanvas.style.width = myCanvas.width + 'px';
+myCanvas.style.height = myCanvas.height + 'px';
+ 
+myCanvas.width = myCanvas.width * ratio;
+myCanvas.height = myCanvas.height * ratio;
 ```
