@@ -36,5 +36,5 @@
 其实，Charles代理HTTPS的原理就是以上的第二种情况，即中间人Charles对服务器公钥进行篡改，然后利用Charles签证中心的私钥对服务器信息进行加密，传给客户端。不同的是，此时客户端已经信任了Charles签证中心，所以可以通过Charles签证中心的公钥对签名进行解密。因此，Charles能代理HTTPS的主要原因就是：**客户端安装证书信任了Charles签证中心**。
 
 ## 参考
-* [图解 HTTPS：Charles 捕获 HTTPS 的原理](!https://github.com/youngwind/blog/issues/108)
-* [看完还不懂HTTPS我直播吃翔](!https://blog.csdn.net/winwill2012/article/details/71774469)
+* [图解 HTTPS：Charles 捕获 HTTPS 的原理](https://github.com/youngwind/blog/issues/108)
+* [看完还不懂HTTPS我直播吃翔](https://blog.csdn.net/winwill2012/article/details/71774469)
