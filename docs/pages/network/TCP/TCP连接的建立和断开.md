@@ -26,10 +26,10 @@ TCP的三次握手和四次挥手看过很多遍了，只是从宏观上记住�
 
 ### 2、二次握手
 服务端收到消息后，需要告诉客户端自己收到消息了（ACK=1，ack=i+1），同时要告诉客户端自己可以连接(SYN=1);同时要返回自己的初始序列号seq=j。
-![](https://tva1.sinaimg.cn/large/00831rSTgy1gcux7ixhvyj30tq06e0t6.jpg)
+![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gf00yaupr0j30tq06et9p.jpg)
 ### 3、三次握手
 客户端收到消息后，需要告诉服务端自己收到消息了（ACK=1，ack=j+1，seq=i+1）
-![](https://tva1.sinaimg.cn/large/00831rSTgy1gcuxa4g5mnj30ui08edgh.jpg)
+![](https://tva1.sinaimg.cn/large/007S8ZIlgy1gf00z7d1hwj30ui08eabg.jpg)
 
 此时连接就建立完成了，之后发送消息，就无需再建立连接。应用程序只需要从内存中拿出描述符，并通过描述符找到对应的套接字，将需要发送的消息提交给套接字（入口），消息经由管道，最终服务端对应的套接字（出口）接收到，交给对应的应用程序。
 
